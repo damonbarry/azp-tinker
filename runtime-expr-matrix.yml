@@ -1,0 +1,22 @@
+pr: none
+trigger: none
+
+strategy:
+  matrix:
+    A:
+      one: 'a-one'
+    B:
+      two: 'b-two'
+
+steps:
+
+- checkout: self
+  fetchDepth: 0
+
+- script: |
+    echo "ONE: $ONE"
+    echo "TWO: $TWO"
+  displayName: Use matrix vars in runtime expr
+  env:
+    ONE: $[ coalesce(variables.one, 'literal-one') ]
+    TWO: $[ coalesce(variables.two, 'literal-two') ]
