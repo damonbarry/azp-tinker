@@ -2,6 +2,7 @@ parameters:
   one: 'yyy'
   two: 'zzz'
 
+steps:
 - script: |
     echo "ONE: $(one)"
     echo "TWO: $(two)"
