@@ -18,8 +18,8 @@ steps:
 
 - template: template.yml
   parameters:
-    one: $[ variables.one ]
-    two: $[ variables.two ]
+    one: $(one)
+    two: $(two)
 
 ## condition works:
 ##   Job A script ran because eq(coalesce(variables.one, 'literal-one'), variables.one)
