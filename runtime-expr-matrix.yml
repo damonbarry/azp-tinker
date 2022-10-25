@@ -18,7 +18,16 @@ steps:
     one: $[ coalesce(variables.one, 'literal-one') ]
     two: $[ coalesce(variables.two, 'literal-two') ]
 
-## condition and env vars don't work
+## condition works:
+##   Job A script ran because eq(coalesce(variables.one, 'literal-one'), variables.one)
+##   Job B script did not run because 'variables.one' evaluated to Null
+## env vars don't work:
+##   Job A
+##     ONE: a-one
+##     TWO: $[ coalesce(variables.two, 'literal-two') ]
+##   Job B
+##     ONE: $[ coalesce(variables.one, 'literal-one') ]
+##     TWO: b-two
 ## ==================================
 # - script: |
 #     echo "ONE: $ONE"
