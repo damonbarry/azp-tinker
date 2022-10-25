@@ -4,6 +4,6 @@ parameters:
 
 steps:
 - script: |
-    echo "ONE: $(one)"
-    echo "TWO: $(two)"
+    echo "ONE: ${{ parameters.one }}"
+    echo "TWO: ${{ parameters.two }}"
   displayName: Print parameter values from template
