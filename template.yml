@@ -1,0 +1,8 @@
+parameters:
+  one: 'yyy'
+  two: 'zzz'
+
+- script: |
+    echo "ONE: $(one)"
+    echo "TWO: $(two)"
+  displayName: Print parameter values from template

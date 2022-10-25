@@ -13,11 +13,19 @@ steps:
 - checkout: self
   fetchDepth: 0
 
-- script: |
-    echo "ONE: $ONE"
-    echo "TWO: $TWO"
-  displayName: Use matrix vars in runtime expr
-  condition: eq(coalesce(variables.one, 'literal-one'), variables.one)
-  env:
-    ONE: $[ coalesce(variables.one, 'literal-one') ]
-    TWO: $[ coalesce(variables.two, 'literal-two') ]
+- template: template.yml
+  parameters:
+    one: $[ coalesce(variables.one, 'literal-one') ]
+    two: $[ coalesce(variables.two, 'literal-two') ]
+
+## condition and env vars don't work
+## ==================================
+# - script: |
+#     echo "ONE: $ONE"
+#     echo "TWO: $TWO"
+#   displayName: Use matrix vars in runtime expr
+#   condition: eq(coalesce(variables.one, 'literal-one'), variables.one)
+#   env:
+#     ONE: $[ coalesce(variables.one, 'literal-one') ]
+#     TWO: $[ coalesce(variables.two, 'literal-two') ]
+## ==================================
