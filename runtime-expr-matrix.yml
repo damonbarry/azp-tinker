@@ -7,6 +7,9 @@ strategy:
       one: 'a-one'
     B:
       two: 'b-two'
+    C:
+      one: 'c-one'
+      two: 'c-two'
 
 steps:
 
