@@ -26,13 +26,18 @@ stages:
     steps:
 
     - script: |
+        echo "##vso[task.setvariable variable=continue;isOutput=true]$(continue)"
         echo "##vso[task.setvariable variable=value;isOutput=true]A2"
       name: get
 
 - stage: B
   dependsOn: A
 
-  condition: eq(stageDependencies.A.A1.result, 'Skipped')
+  condition: |
+    or(
+      eq(dependencies.A.outputs['A1.get.continue'], 'true'),
+      eq(dependencies.A.outputs['A2.get.continue'], 'true')
+    )
     # and(
     #   succeeded(),
     #   or(
