@@ -31,20 +31,23 @@ stages:
 
 - stage: B
   dependsOn: A
-  condition: |
-    and(
-      succeeded(),
-      or(
-        eq(stageDependencies.A.A1.result, 'Skipped'),
-        eq(dependencies.A.outputs['A1.get.continue'], 'true')
-      )
-    )
+  # condition: |
+  #   and(
+  #     succeeded(),
+  #     or(
+  #       eq(stageDependencies.A.A1.result, 'Skipped'),
+  #       eq(dependencies.A.outputs['A1.get.continue'], 'true')
+  #     )
+  #   )
   
   variables:
-    ${{ if eq(variables['which'], 'A1') }}:
-      value: $[ stageDependencies.A.A1.outputs['get.value'] ]
-    ${{ else }}:
-      value: $[ stageDependencies.A.A2.outputs['get.value'] ]
+    stagedeps: $[ convertToJson(stageDependencies) ]
+    deps: $[ convertToJson(dependencies) ]
+    vars: $[ convertToJson(variables) ]
+    # ${{ if eq(variables['which'], 'A1') }}:
+    #   value: $[ stageDependencies.A.A1.outputs['get.value'] ]
+    # ${{ else }}:
+    #   value: $[ stageDependencies.A.A2.outputs['get.value'] ]
   
   jobs:
 
@@ -53,3 +56,6 @@ stages:
 
     - script: |
         echo 'Value is [$(value)]'
+        echo $'stageDependencies:\n$(stagedeps)\n\n'
+        echo $'dependencies:\n$(dependencies)\n\n'
+        echo $'variables:\n$(variables)\n\n'
