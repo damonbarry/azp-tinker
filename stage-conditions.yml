@@ -3,7 +3,7 @@ trigger: none
 
 variables:
   DisableDockerDetector: true
-  which: A2
+  which: A1
   continue: false
 
 stages:
