@@ -3,7 +3,7 @@ trigger: none
 
 variables:
   DisableDockerDetector: true
-  which: A2
+  which: A1
   continue: true
 
 stages:
@@ -34,9 +34,12 @@ stages:
   dependsOn: A
 
   condition: |
-    or(
-      eq(dependencies.A.outputs['A1.get.continue'], 'true'),
-      eq(dependencies.A.outputs['A2.get.continue'], 'true')
+    and(
+      succeeded(),
+      or(
+        eq(dependencies.A.outputs['A1.get.continue'], 'true'),
+        eq(dependencies.A.outputs['A2.get.continue'], 'true')
+      )
     )
   # and(
   #   succeeded(),
