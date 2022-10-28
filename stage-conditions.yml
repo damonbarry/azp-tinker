@@ -9,6 +9,7 @@ variables:
 stages:
 
 - stage: A
+  dependsOn: []
   jobs:
 
   - job: A1
@@ -29,10 +30,14 @@ stages:
       name: get
 
 - stage: B
+  dependsOn: A
   condition: |
-    or(
-      eq(stageDependencies.A.A1.result, 'Skipped'),
-      eq(dependencies.A.outputs['A1.get.continue'], 'true')
+    and(
+      succeeded(),
+      or(
+        eq(stageDependencies.A.A1.result, 'Skipped'),
+        eq(dependencies.A.outputs['A1.get.continue'], 'true')
+      )
     )
   
   variables:
