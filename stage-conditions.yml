@@ -1,0 +1,53 @@
+pr: none
+trigger: none
+
+variables:
+  DisableDockerDetector: true
+  which: A1
+  continue: true
+
+stages:
+
+- stage: A
+  jobs:
+
+  - job: A1
+    condition: eq(variables.which, 'A1')
+    steps:
+
+    - script: |
+        echo "##vso[task.setvariable variable=continue;isOutput=true]$(continue)"
+        echo "##vso[task.setvariable variable=value;isOutput=true]A1"
+      name: get
+
+  - job: A2
+    condition: eq(variables.which, 'A2')
+    steps:
+
+    - script: |
+        echo "##vso[task.setvariable variable=value;isOutput=true]A2"
+      name: get
+
+- stage: B
+  condition: |
+    and(
+      succeeded(),
+      or(
+        eq(stageDependencies.A.A1.result, 'Skipped'),
+        eq(dependencies.A.outputs['A1.get.continue'], 'true')
+      )
+    )
+  
+  variables:
+    ${{ if eq(variables['which'], 'A1') }}:
+      value: $[ stageDependencies.A.A1.outputs['get.value'] ]
+    ${{ else }}:
+      value: $[ stageDependencies.A.A2.outputs['get.value'] ]
+  
+  jobs:
+
+  - job: B1
+    steps:
+
+    - script: |
+        echo 'Value is [$(value)]'
