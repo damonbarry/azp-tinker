@@ -3,7 +3,7 @@ trigger: none
 
 variables:
   DisableDockerDetector: true
-  which: A1
+  which: A2
   continue: true
 
 stages:
@@ -26,7 +26,7 @@ stages:
     steps:
 
     - script: |
-        echo "##vso[task.setvariable variable=continue;isOutput=true]$(continue)"
+        echo "##vso[task.setvariable variable=continue;isOutput=true]true"
         echo "##vso[task.setvariable variable=value;isOutput=true]A2"
       name: get
 
