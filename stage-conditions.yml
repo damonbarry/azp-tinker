@@ -34,10 +34,6 @@ stages:
   dependsOn: A
 
   condition: |
-    or(
-      eq(dependencies.A.outputs['A1.get.continue'], 'true'),
-      eq(dependencies.A.outputs['A2.get.continue'], 'true')
-    )
     # and(
     #   succeeded(),
     #   or(
@@ -45,6 +41,10 @@ stages:
     #     eq(dependencies.A.outputs['A1.get.continue'], 'true')
     #   )
     # )
+    or(
+      eq(dependencies.A.outputs['A1.get.continue'], 'true'),
+      eq(dependencies.A.outputs['A2.get.continue'], 'true')
+    )
   
   variables:
     stagedeps: $[ convertToJson(stageDependencies) ]
