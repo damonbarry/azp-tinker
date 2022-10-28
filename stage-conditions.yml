@@ -57,5 +57,5 @@ stages:
     - script: |
         echo 'Value is [$(value)]'
         echo $'stageDependencies:\n$(stagedeps)\n\n'
-        echo $'dependencies:\n$(dependencies)\n\n'
-        echo $'variables:\n$(variables)\n\n'
+        echo $'dependencies:\n$(deps)\n\n'
+        echo $'variables:\n$(vars)\n\n'
