@@ -3,7 +3,7 @@ trigger: none
 
 variables:
   DisableDockerDetector: true
-  which: A2
+  which: A1
   continue: true
 
 stages:
@@ -31,23 +31,24 @@ stages:
 
 - stage: B
   dependsOn: A
-  # condition: |
-  #   and(
-  #     succeeded(),
-  #     or(
-  #       eq(stageDependencies.A.A1.result, 'Skipped'),
-  #       eq(dependencies.A.outputs['A1.get.continue'], 'true')
-  #     )
-  #   )
+
+  condition: |
+    and(
+      succeeded(),
+      or(
+        eq(stageDependencies.A.A1.result, 'Skipped'),
+        eq(dependencies.A.outputs['A1.get.continue'], 'true')
+      )
+    )
   
   variables:
     stagedeps: $[ convertToJson(stageDependencies) ]
     deps: $[ convertToJson(dependencies) ]
     vars: $[ convertToJson(variables) ]
-    # ${{ if eq(variables['which'], 'A1') }}:
-    #   value: $[ stageDependencies.A.A1.outputs['get.value'] ]
-    # ${{ else }}:
-    #   value: $[ stageDependencies.A.A2.outputs['get.value'] ]
+    ${{ if eq(variables['which'], 'A1') }}:
+      value: $[ stageDependencies.A.A1.outputs['get.value'] ]
+    ${{ else }}:
+      value: $[ stageDependencies.A.A2.outputs['get.value'] ]
   
   jobs:
 
